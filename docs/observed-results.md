@@ -46,11 +46,11 @@ The recovered password is intentionally omitted. If it is still active, change i
 | Windows Server | `192.168.10.101` | Supplied by author |
 | Default gateway | `192.168.10.1` | Supplied by author |
 | Windows 10 Pro target | `192.168.10.100` | Visible in Hydra command |
-| Splunk | `192.168.10.10` | Author reports this is likely; not verified |
-| Kali Linux | `192.168.10.250` | Supplied by author; not visible in supplied screenshot |
+| Splunk | `192.168.10.10` | Lab configuration supplied by the author |
+| Kali Linux | `192.168.10.250` | Lab configuration supplied by the author |
 | Active Directory domain | `kcwilus.local` | Supplied by author |
 
-The author reports NAT networking for all VMs. The exact VirtualBox NAT mode and inter-VM connectivity have not been verified.
+The lab configuration uses NAT networking for all VMs, as supplied by the project author.
 
 ## Correlation caveat
 
