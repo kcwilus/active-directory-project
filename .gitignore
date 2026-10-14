@@ -1,0 +1,35 @@
+# Secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+credentials*
+secrets*
+passwords.txt
+
+# Raw logs and captures; review/redact before sharing
+*.evtx
+*.log
+*.pcap
+*.pcapng
+
+# Virtual machine disks and exports
+*.vdi
+*.vhd
+*.vhdx
+*.vmdk
+*.ova
+*.ovf
+*.iso
+Snapshots/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+*.tmp
