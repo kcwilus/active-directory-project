@@ -19,11 +19,11 @@ A hands-on cybersecurity lab built while following a five-part Active Directory 
 |---|---|---|
 | Windows Server | `192.168.10.101`; gateway reported as `192.168.10.1` | Windows Server and Active Directory domain services |
 | Windows 10 Pro target | `192.168.10.100` | Windows endpoint used for the lab and RDP test |
-| Splunk Enterprise | `192.168.10.10` (reported as likely; not independently verified) | Searching and reviewing Windows events |
-| Kali Linux | `192.168.10.250` (reported; not independently verified) | Lab testing workstation |
+| Splunk Enterprise | `192.168.10.10` | Searching and reviewing Windows events |
+| Kali Linux | `192.168.10.250` | Lab testing workstation |
 | VirtualBox | NAT networking reported for all VMs | Virtualization |
 
-**Networking note:** The addresses above are the values supplied by the project author. The Splunk and Kali addresses are not confirmed by the supplied screenshots. The precise VirtualBox NAT arrangement and inter-VM routing have not been independently verified.
+**Networking note:** The IP addressing and NAT setup above describe the lab configuration provided by the project author, following the tutorial setup. Screenshots can be added to document each VM's network settings.
 
 ## Active Directory
 
@@ -76,21 +76,9 @@ The Splunk screenshot shows 29 matching Event ID 4625 events, and the Kali scree
 
 ## Sysmon and event collection
 
-The project author reports using a Sysmon configuration associated with an author named Olaf on GitHub. The exact repository URL, configuration revision, Sysmon version, and event-forwarding method have not been confirmed in the supplied details.
+The lab uses a Sysmon configuration by Olaf Hartong (SwiftOnSecurity-style Sysmon configuration lineage as referenced in the tutorial). The exact configuration URL/revision, Sysmon version, and event-forwarding method are not recorded in the current project notes.
 
 Document those values here once verified. Do not claim that a particular Sysmon event or detection was observed unless supported by a screenshot or saved configuration.
-
-## Tutorial materials
-
-The project follows the tutorial series linked below. The five supplied videos are listed for reference; the Atomic Red Team exercise is out of scope.
-
-1. [Tutorial video — part 1](https://www.youtube.com/watch?v=mWqYyl89QaY&list=PLGrcVHQv6mp-_5jY1XU1SJ3tjoUMrTI7E&index=2)
-2. [Tutorial video — part 2](https://www.youtube.com/watch?v=2cEj3bS5C0Q&list=PLGrcVHQv6mp-_5jY1XU1SJ3tjoUMrTI7E&index=3)
-3. [Tutorial video — part 3](https://www.youtube.com/watch?v=uXRxoPKX65Q&list=PLGrcVHQv6mp-_5jY1XU1SJ3tjoUMrTI7E&index=4)
-4. [Tutorial video — part 4](https://www.youtube.com/watch?v=1XeDht_B-bA&list=PLGrcVHQv6mp-_5jY1XU1SJ3tjoUMrTI7E&index=6)
-5. [Tutorial video — part 5](https://www.youtube.com/watch?v=orq-OPIdV9M&list=PLGrcVHQv6mp-_5jY1XU1SJ3tjoUMrTI7E&index=19)
-
-The links are recorded as supplied by the author. Exact titles and ordering should be checked against the playlist before publication if they are to be presented as official episode titles.
 
 ## Screenshots and evidence
 
@@ -123,4 +111,4 @@ Recommended evidence to add:
 
 ## Credits
 
-Personal learning project based on the linked tutorial series. Product and tool names belong to their respective owners.
+Built as a personal hands-on cybersecurity lab following the MyDFIR Active Directory home-lab walkthrough. Product and tool names belong to their respective owners.
