@@ -41,7 +41,7 @@ Avoid committing passwords or other account secrets. User display names are omit
 
 The following terminal screenshot documents Splunk Enterprise starting successfully and the command used to configure automatic startup:
 
-![Splunk startup and boot-start configuration](screenshots/ad-splunk-boot-start.jpg)
+![Splunk startup and boot-start configuration](screenshots/ad-splunk-boot-start.png)
 
 *The terminal output shows the init script being installed and configured to run at boot.*
 
@@ -63,7 +63,7 @@ This confirms that the boot-start configuration command completed successfully i
 
 The following Splunk screenshot shows the EventCode field summary with **4625** selected and a displayed count of **29**.
 
-![Splunk EventCode 4625 field summary](screenshots/ad-splunk-eventid-4625.jpg)
+![Splunk EventCode 4625 field summary](screenshots/ad-splunk-eventid-4625.png)
 
 *This is a field-summary view showing the count for EventCode 4625, not a full event-detail record.*
 
@@ -79,7 +79,7 @@ Event ID **4625** represents a failed logon. The screenshot supports that matchi
 
 The following Kali terminal screenshot shows Hydra v9.6 testing the lab RDP service:
 
-![Controlled Hydra RDP password-guessing test](screenshots/ad-hydra-rdp.jpg)
+![Controlled Hydra RDP password-guessing test](screenshots/ad-hydra-rdp.png)
 
 *The successful password in the final Hydra result is obscured. The screenshot is retained as evidence of the controlled test against the lab endpoint.*
 
