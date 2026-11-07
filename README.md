@@ -11,7 +11,8 @@ A hands-on cybersecurity lab built while following a five-part Active Directory 
 - Collect and search Windows Security events in Splunk.
 - Use Sysmon telemetry as part of endpoint monitoring.
 - Observe failed logon activity and review relevant SIEM events.
-- Document the lab architecture and evidence for a cybersecurity portfolio.
+- Configure Splunk to start automatically when its Linux VM boots.
+- Document the lab architecture, validation steps, and evidence for a cybersecurity portfolio.
 
 ## Lab components
 
@@ -19,7 +20,7 @@ A hands-on cybersecurity lab built while following a five-part Active Directory 
 |---|---|---|
 | Windows Server | `192.168.10.101`; gateway reported as `192.168.10.1` | Windows Server and Active Directory domain services |
 | Windows 10 Pro target | `192.168.10.100` | Windows endpoint used for the lab and RDP test |
-| Splunk Enterprise | `192.168.10.10` | Searching and reviewing Windows events |
+| Splunk Enterprise | `192.168.10.10`; web interface on TCP `8000` | Searching and reviewing Windows events |
 | Kali Linux | `192.168.10.250` | Lab testing workstation |
 | VirtualBox | NAT networking reported for all VMs | Virtualization |
 
@@ -36,70 +37,85 @@ Avoid committing passwords or other account secrets. User display names are omit
 
 ## Verified results
 
-### 1. Failed logon events in Splunk
+### 1. Splunk startup and boot-start configuration
 
-The supplied Splunk screenshot shows this search:
+The supplied terminal screenshot documents Splunk Enterprise starting successfully and the command used to configure automatic startup:
+
+```bash
+sudo ./splunk enable boot-start -user splunk
+```
+
+The captured output shows:
+
+- Splunk Enterprise **10.4.3**.
+- Splunk started its server daemon (`splunkd`).
+- The web interface became available on port `8000`.
+- The init script was installed at `/etc/init.d/splunk`.
+- The init script was configured to run at boot.
+
+This confirms that the boot-start configuration command completed successfully in the captured session. A separate reboot test is still needed to demonstrate that Splunk starts automatically after a full VM restart.
+
+### 2. Windows failed-logon events in Splunk
+
+The supplied Splunk screenshot shows the EventCode field summary with **4625** selected and a displayed count of **29**.
+
+The earlier search used for this investigation was:
 
 ```spl
 index="endpoint" mb EventCode=4625
 ```
 
-Observed in the screenshot:
+Event ID **4625** represents a failed logon. The screenshot supports that matching Windows Security events were available in Splunk when it was captured. It is a field-summary view, not a complete event-detail view.
 
-- **Result count:** 29 events
-- **Selected time range:** Last 7 days
-- **Event ID:** 4625 — failed logon
-- **Host:** `target-PC`
-- **Source:** `WinEventLog:Security`
-- **Sourcetype:** `WinEventLog:Security`
-- **Visible account name in event details:** `mb`
+### 3. Controlled RDP password-guessing test from Kali Linux
 
-This confirms that events matching the search were available in Splunk at the time of the screenshot. The screenshot does not establish the complete log-forwarding configuration or prove that every event came from the RDP test below.
-
-### 2. RDP authentication test from Kali Linux
-
-The supplied terminal screenshot shows Hydra v9.6 testing the lab RDP service:
+The supplied Kali terminal screenshot shows Hydra v9.6 testing the lab RDP service:
 
 - **Target:** `192.168.10.100:3389/tcp`
 - **Service:** RDP
 - **Username tested:** `mb`
 - **Attempts shown:** 24
-- **Observed result:** Hydra reported one valid password for the test account.
+- **Observed result:** Hydra reported **one valid password** for the test account.
 
-The recovered password is intentionally not documented. Do not publish it in this repository or in screenshots. If it remains active, change it before making the project public.
+The screenshot retains the command output and attempted-password list; only the successfully recovered password in Hydra's final result line is obscured. Do not publish the recovered password elsewhere. If it remains active, change it before making the project public.
 
 This activity was performed in the author's lab. Only test systems you own or are explicitly authorized to assess.
 
-### 3. Correlation limitations
+### 4. Detection and correlation limitations
 
-The Splunk screenshot shows 29 matching Event ID 4625 events, and the Kali screenshot shows an RDP password-guessing test. The available screenshots alone do not prove a one-to-one relationship between the Hydra attempts and the Splunk events. To validate correlation, inspect timestamps and fields such as source address, destination host, account, and logon type in the actual events.
+The Splunk screenshot shows 29 occurrences of EventCode 4625 in its field summary, while the Kali screenshot shows an RDP password-guessing test. These screenshots alone do not prove a one-to-one relationship between the Hydra attempts and the Splunk events.
+
+To validate correlation, inspect the underlying event timestamps and fields such as source address, destination host, account, and logon type. A future evidence update should include the relevant event details and a matching time window.
 
 ## Sysmon and event collection
 
-The lab uses a Sysmon configuration by Olaf Hartong (SwiftOnSecurity-style Sysmon configuration lineage as referenced in the tutorial). The exact configuration URL/revision, Sysmon version, and event-forwarding method are not recorded in the current project notes.
+The lab uses a Sysmon configuration by Olaf Hartong (as referenced in the tutorial). The exact configuration URL/revision, Sysmon version, and event-forwarding method are not recorded in the current project notes.
 
 Document those values here once verified. Do not claim that a particular Sysmon event or detection was observed unless supported by a screenshot or saved configuration.
 
-## Screenshots and evidence
+## Evidence status
 
-The project author will add screenshots manually. Before committing them, redact passwords, tokens, personal information, and any other details that should not be public. In particular, make sure the recovered RDP password is completely obscured.
+Evidence captured and reviewed:
 
-Recommended evidence to add:
+- [x] Kali terminal output showing the controlled RDP Hydra test; successful password obscured.
+- [x] Splunk field summary showing EventCode 4625.
+- [x] Splunk startup output and boot-start configuration command.
+- [ ] Active Directory domain and user configuration.
+- [ ] Sysmon configuration and verified event-collection settings.
+- [ ] Reboot validation showing Splunk starts automatically after a VM restart.
+- [ ] Full Splunk event details with timestamps, source address, and logon type to validate correlation.
 
-- Splunk search results for Event ID 4625.
-- Redacted terminal output from the RDP test.
-- Active Directory domain and user configuration.
-- Sysmon configuration and verified event-collection settings.
-- Additional Splunk searches or dashboards actually tested.
+Before publishing screenshots, check for passwords, tokens, personal information, and other details that should not be public.
 
 ## Values still to verify
 
-- Exact versions of Windows Server, Windows 10, Splunk, Sysmon, Kali Linux, and VirtualBox.
+- Exact versions of Windows Server, Windows 10, Sysmon, Kali Linux, and VirtualBox.
 - Domain controller hostname and full network configuration.
 - Whether `192.168.10.10` is the actual Splunk IP and `192.168.10.250` the actual Kali IP.
 - Exact Sysmon configuration source URL and revision.
 - Splunk event collection/forwarding method and configuration.
 - Whether the failed logons shown in Splunk correspond to the RDP test.
+- Whether Splunk was confirmed to start after a full VM reboot.
 
 ## Safety and limitations
 
