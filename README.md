@@ -39,7 +39,11 @@ Avoid committing passwords or other account secrets. User display names are omit
 
 ### 1. Splunk startup and boot-start configuration
 
-The supplied terminal screenshot documents Splunk Enterprise starting successfully and the command used to configure automatic startup:
+The following terminal screenshot documents Splunk Enterprise starting successfully and the command used to configure automatic startup:
+
+![Splunk startup and boot-start configuration](screenshots/ad-splunk-boot-start.jpg)
+
+*The terminal output shows the init script being installed and configured to run at boot.*
 
 ```bash
 sudo ./splunk enable boot-start -user splunk
@@ -57,7 +61,11 @@ This confirms that the boot-start configuration command completed successfully i
 
 ### 2. Windows failed-logon events in Splunk
 
-The supplied Splunk screenshot shows the EventCode field summary with **4625** selected and a displayed count of **29**.
+The following Splunk screenshot shows the EventCode field summary with **4625** selected and a displayed count of **29**.
+
+![Splunk EventCode 4625 field summary](screenshots/ad-splunk-eventid-4625.jpg)
+
+*This is a field-summary view showing the count for EventCode 4625, not a full event-detail record.*
 
 The earlier search used for this investigation was:
 
@@ -69,7 +77,11 @@ Event ID **4625** represents a failed logon. The screenshot supports that matchi
 
 ### 3. Controlled RDP password-guessing test from Kali Linux
 
-The supplied Kali terminal screenshot shows Hydra v9.6 testing the lab RDP service:
+The following Kali terminal screenshot shows Hydra v9.6 testing the lab RDP service:
+
+![Controlled Hydra RDP password-guessing test](screenshots/ad-hydra-rdp.jpg)
+
+*The successful password in the final Hydra result is obscured. The screenshot is retained as evidence of the controlled test against the lab endpoint.*
 
 - **Target:** `192.168.10.100:3389/tcp`
 - **Service:** RDP
